@@ -1,0 +1,4 @@
+interface:
+  display_name: "Coder"
+  short_description: "Codiert offene Antworten semantisch mit dem LLM"
+  default_prompt: "Use $coder to semantically code all valid responses in this question directory."

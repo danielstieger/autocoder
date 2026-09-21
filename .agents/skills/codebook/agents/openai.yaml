@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codebook"
+  short_description: "Erstellt und verfeinert qualitative Codebooks"
+  default_prompt: "Use $codebook to create or collaboratively refine the codebook for this question directory."
