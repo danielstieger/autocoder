@@ -12,6 +12,7 @@ Treat each question directory as an independent coding unit. Its raw CSV contain
 - Use the directory named by the user. If only one plausible question directory exists, use it without asking.
 - Identify the raw-data CSV by excluding generated files such as `codebook.csv` and `coded.csv`. Never overwrite the raw file.
 - Detect the delimiter, quoting, headers, ID column, and response column from the file rather than assuming fixed names.
+- Preserve the source identifier column and response column names as metadata for downstream coding. In the demo data the identifier is `participant`; never assume a column named `ParticipantID`.
 - Treat empty strings and explicit null markers as missing. Read all substantive responses before finalizing an initial codebook; duplicates and frequencies are evidence of prevalence.
 - Infer the question context from the directory, column name, data, and user guidance. Ask only when ambiguity would materially change the codebook.
 
@@ -23,6 +24,7 @@ Treat each question directory as an independent coding unit. Its raw CSV contain
 - Cover the full range of substantive responses without creating categories for isolated wording variants. Add one final residual category such as `Other / unclear` for unusable or genuinely unmatched responses.
 - Pilot the draft by mentally assigning every valid response to exactly one category. Merge, split, or clarify categories until the scheme is exhaustive, usable, and not needlessly granular.
 - Base category count on the data's complexity rather than a fixed quota.
+- Keep category IDs as positive integers so they can be stored in a MariaDB `INT` column. The database column name is a coding-run choice and does not belong in the codebook itself.
 
 The semantic work must be LLM-based. Scripts may be used only for lossless CSV parsing, counting, file writing, or structural validation; never use keyword rules, regexes, clustering, embeddings, or other automated shortcuts to infer or assign themes.
 
