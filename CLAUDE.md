@@ -24,4 +24,3 @@ This repository creates and applies codebooks for multilingual open-ended survey
 - The MariaDB table name is the raw CSV basename without `.csv`; the source key column is `participant`. The category column is named `<response column>code`, without an underscore.
 - Category discovery and row assignment require LLM-based semantic reasoning. Scripts may support lossless I/O and validation only, never determine a category.
 - Keep codebook design separate from production coding. `/coder` must not silently change categories, and `/codebook` must not claim a full coding run has been completed.
-- The legacy prompt files are background material, not runtime sources of truth. Do not import their ski-specific categories into unrelated questions.
