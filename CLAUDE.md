@@ -4,8 +4,8 @@ This repository creates and applies codebooks for multilingual open-ended survey
 
 ## Skills
 
-- Use `$codebook` to create a codebook inductively from a question directory's raw CSV and to inspect, discuss, or refine it collaboratively. The resulting `codebook.csv` belongs in that question directory.
-- Use `$coder` to apply an existing question-local `codebook.csv` semantically to all valid responses and write MariaDB SQL statements to `coded.csv` beside it.
+- Use `/codebook` to create a codebook inductively from a question directory's raw CSV and to inspect, discuss, or refine it collaboratively. The resulting `codebook.csv` belongs in that question directory.
+- Use `/coder` to apply an existing question-local `codebook.csv` semantically to all valid responses and write MariaDB SQL statements to `coded.csv` beside it.
 - If a request includes both codebook changes and coding, finalize the codebook first and then code against that finalized version.
 
 ## Directory convention
@@ -17,13 +17,11 @@ This repository creates and applies codebooks for multilingual open-ended survey
 `-- coded.csv  (MariaDB SQL script)
 ```
 
-The demo question is `demo_project/verbessern/`, with raw data in `heracles_project_224.csv`.
-
 ## Project rules
 
 - Never overwrite raw survey data.
 - Detect raw-data CSV dialect and columns from the file; `codebook.csv` uses semicolon-delimited UTF-8, while `coded.csv` is UTF-8 SQL text despite its legacy `.csv` name. Existing participant rows are updated with `UPDATE ... WHERE participant = ...`; do not generate inserts that duplicate them.
-- The MariaDB table name is the raw CSV basename without `.csv`; the source key column is `participant`. `$coder` asks the user for the category-column name before coding.
+- The MariaDB table name is the raw CSV basename without `.csv`; the source key column is `participant`. The category column is named `<response column>code`, without an underscore.
 - Category discovery and row assignment require LLM-based semantic reasoning. Scripts may support lossless I/O and validation only, never determine a category.
-- Keep codebook design separate from production coding. `$coder` must not silently change categories, and `$codebook` must not claim a full coding run has been completed.
+- Keep codebook design separate from production coding. `/coder` must not silently change categories, and `/codebook` must not claim a full coding run has been completed.
 - The legacy prompt files are background material, not runtime sources of truth. Do not import their ski-specific categories into unrelated questions.
