@@ -1,17 +1,17 @@
 ---
 name: coder
-description: Semantically code every valid response to an open-ended survey question with the question directory's codebook.csv and emit MariaDB statements in coded.csv. Use for production coding; do not use to design or silently change the codebook.
+description: Semantically code every valid response to an open-ended survey question with the question directory's codebook.csv and emit MariaDB statements in coded.sql. Use for production coding; do not use to design or silently change the codebook.
 ---
 
 # Coder
 
-Treat each question directory as an independent coding unit containing raw response data and its own `codebook.csv`. Write MariaDB SQL statements to `coded.csv` in that directory unless the user specifies another path.
+Treat each question directory as an independent coding unit containing raw response data and its own `codebook.csv`. Write MariaDB SQL statements to `coded.sql` in that directory unless the user specifies another path.
 
 ## Prepare the run
 
 - Use the directory named by the user. If only one plausible question directory exists, use it without asking.
 - Require and read the complete `codebook.csv` before assigning any response. If it is absent, stop and use `/codebook` first.
-- Identify the raw CSV by excluding `codebook.csv`, `coded.csv`, and other clearly generated outputs. Never modify the raw file.
+- Identify the raw CSV by excluding `codebook.csv`, `coded.sql`, and other clearly generated outputs. Never modify the raw file.
 - Detect delimiter, quoting, encoding, headers, and response column from the actual file. The participant key column for this MariaDB workflow is `participant`; do not invent a `ParticipantID` column. Ask only if the source does not contain `participant` or the response column remains ambiguous. A question may span several response columns, for example `association1` to `association5`; all of them are coded with the directory's one codebook.
 - Derive the target table name from the original raw-data filename without its `.csv` extension (for example, `heracles_project_224.csv` becomes `heracles_project_224`). Ask if the database uses a different table name.
 - Name the category column `<response column>code`, without an underscore, for example `likecode` or `association1code`. If a question has several response columns, add one category column per response column. Validate that each name is a safe MariaDB identifier and use the same name in the `ALTER TABLE` and every `UPDATE` statement.
@@ -34,7 +34,7 @@ For large files, work in bounded batches while retaining the full codebook for e
 
 ## Output
 
-Write `coded.csv` as a UTF-8 MariaDB SQL script, despite the legacy `.csv` filename. The first statement must add the integer category column:
+Write `coded.sql` as a UTF-8 MariaDB SQL script. The first statement must add the integer category column:
 
 ```sql
 ALTER TABLE `heracles_project_224` ADD COLUMN `likecode` INT;
@@ -65,4 +65,4 @@ Before completing the run, verify mechanically that:
 - with several response columns, each `UPDATE` sets exactly the category columns of that participant's filled cells, and
 - every SQL statement ends with `;` and targets the expected table and category column or columns.
 
-Report the paths, valid/skipped counts, and validation result in chat after writing the file. Do not dump the entire coded CSV into chat unless the user asks.
+Report the paths, valid/skipped counts, and validation result in chat after writing the file. Do not dump the entire SQL file into chat unless the user asks.

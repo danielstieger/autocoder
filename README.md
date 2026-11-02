@@ -27,7 +27,7 @@ Claude Code builds a codebook from the raw answers, then reads and codes every a
 ```text
   raw answers       /codebook          /coder           database
 ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐
-│  survey.csv │──▶│ categories  │──▶│  coded.csv  │──▶│   MariaDB   │
+│  survey.csv │──▶│ categories  │──▶│  coded.sql  │──▶│   MariaDB   │
 └─────────────┘   └─────────────┘   └─────────────┘   └─────────────┘
                          ▲
                    you review and
@@ -42,10 +42,7 @@ Open this repository in Claude Code and put the raw CSV into a project folder. T
 |:---:|---|---|
 | **1** | `/codebook` | Creates the categories. Review and refine them together. |
 | **2** | `/coder` | Applies the finished codebook to all answers. |
-| **3** | Run `coded.csv` | Adds the code columns to the database and fills them. |
-
-> [!NOTE]
-> Despite its name, `coded.csv` is a SQL script.
+| **3** | Run `coded.sql` | Adds the code columns to the database and fills them. |
 
 ## Files
 
@@ -56,7 +53,7 @@ Each question has its own folder:
 ├── <raw-data>.csv       raw answers, never overwritten
 ├── codebook.csv         categories with definitions and examples
 ├── compact_codes.txt    short category labels for the analysis tool
-└── coded.csv            SQL that adds the code columns and fills them
+└── coded.sql            SQL that adds the code columns and fills them
 ```
 
 A file that holds several questions is first split into one folder per question.

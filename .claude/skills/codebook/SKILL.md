@@ -10,7 +10,7 @@ Treat each question directory as an independent coding unit. Its raw CSV contain
 ## Locate and understand the data
 
 - Use the directory named by the user. If only one plausible question directory exists, use it without asking.
-- Identify the raw-data CSV by excluding generated files such as `codebook.csv`, `compact_codes.txt`, and `coded.csv`. Never overwrite the raw file.
+- Identify the raw-data CSV by excluding generated files such as `codebook.csv`, `compact_codes.txt`, and `coded.sql`. Never overwrite the raw file.
 - Detect the delimiter, quoting, headers, ID column, and response column or columns from the file rather than assuming fixed names.
 - Preserve the source identifier column and response column names as metadata for downstream coding. The identifier is normally `participant`; never assume a column named `ParticipantID`.
 - Treat empty strings and explicit null markers as missing. Read all substantive responses before finalizing an initial codebook; duplicates and frequencies are evidence of prevalence.
